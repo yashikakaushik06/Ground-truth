@@ -1,21 +1,11 @@
-# vuln-hunter — a 5-phase LLM agent for finding & proving web vulnerabilities
-
-Built as a working prototype of the loop described in UnboundCompute's
-Prompt Engineer role: **understand → assume → experiment → verify → chain**.
-This isn't a prompt tweaked on top of an existing scanner — it's a small,
+Ground truth — a 5-phase LLM agent for finding & proving web vulnerabilities
+it's a small,
 opinionated pipeline where each phase is a separate, carefully-scoped prompt,
 the model's own claims are checked against real HTTP evidence it just
 collected, and an eval harness scores the whole thing against known ground
 truth so "the agent said it found something" and "the agent actually found
 something" are two different, both-measured things.
 
-## Why this exists
-
-The role asks for someone who has "gotten real, non-obvious results out of
-LLMs" and can "build evals that measure whether the system actually catches
-bugs, not just sounds smart." So that's what this repo tries to demonstrate,
-concretely, with a real run and real numbers below — not a claim about what
-it could theoretically do.
 
 ## Architecture
 
@@ -104,15 +94,6 @@ attack an actual attacker would run:
 Full evidence (literal request/response pairs, curl-reproducible) is in
 `evals/results/findings.json`.
 
-## Running it yourself
-
-```bash
-pip install -r requirements.txt
-python3 target_app/app.py &          # starts vuln-mart on :5001
-python3 evals/run_eval.py            # runs the agent + prints the scorecard
-```
-
-To go live: `export ANTHROPIC_API_KEY=sk-ant-...` before the second command.
 
 ## What I'd build next with more time / a real key
 
@@ -128,5 +109,3 @@ To go live: `export ANTHROPIC_API_KEY=sk-ant-...` before the second command.
 - Cost/latency tracking per phase, since "reliable, repeatable steps" in
   production also means "affordable at scale."
 
-See `CASE_STUDY.md` for the fuller writeup of design decisions and why I
-made the tradeoffs I did.
