@@ -51,8 +51,8 @@
             "error": "invalid credentials"
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "32",
             "Connection": "close"
@@ -67,8 +67,8 @@
             "username": "admin"
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "67",
             "Connection": "close"
@@ -92,8 +92,8 @@
             "total": 19.99
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "62",
             "Connection": "close"
@@ -108,8 +108,8 @@
             "total": 500.0
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "78",
             "Connection": "close"
@@ -132,8 +132,8 @@
             "username": "alice"
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "42",
             "Connection": "close"
@@ -147,8 +147,8 @@
             "username": "alice"
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "43",
             "Connection": "close"
@@ -170,8 +170,8 @@
             "status": "ok"
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "38",
             "Connection": "close"
@@ -186,8 +186,8 @@
             "secret_key": "vulnmart-super-secret-do-not-leak-2024"
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "115",
             "Connection": "close"
@@ -209,8 +209,8 @@
             "rows": 3
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "31",
             "Connection": "close"
@@ -222,8 +222,8 @@
             "error": "unsupported format, allowed: ['csv', 'json', 'xml']"
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "64",
             "Connection": "close"
@@ -246,8 +246,8 @@
             "error": "invalid credentials"
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "32",
             "Connection": "close"
@@ -262,8 +262,8 @@
             "username": "admin"
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "67",
             "Connection": "close"
@@ -287,8 +287,8 @@
             "total": 19.99
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "62",
             "Connection": "close"
@@ -303,8 +303,8 @@
             "total": 500.0
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "78",
             "Connection": "close"
@@ -327,8 +327,8 @@
             "username": "alice"
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "42",
             "Connection": "close"
@@ -342,8 +342,8 @@
             "username": "alice"
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "43",
             "Connection": "close"
@@ -365,8 +365,8 @@
             "status": "ok"
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "38",
             "Connection": "close"
@@ -381,8 +381,8 @@
             "secret_key": "vulnmart-super-secret-do-not-leak-2024"
           },
           "headers": {
-            "Server": "Werkzeug/3.1.7 Python/3.12.3",
-            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Server": "Werkzeug/3.1.8 Python/3.13.5",
+            "Date": "Fri, 03 Jul 2026 19:08:00 GMT",
             "Content-Type": "application/json",
             "Content-Length": "115",
             "Connection": "close"

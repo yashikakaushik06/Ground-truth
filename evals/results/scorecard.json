@@ -14,5 +14,5 @@
   "red_herring_incorrectly_verified": false,
   "evidence_complete_rate": 1.0,
   "chains_found": 1,
-  "run_time_seconds": 0.03
+  "run_time_seconds": 0.15
 }
