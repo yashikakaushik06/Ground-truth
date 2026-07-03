@@ -1,0 +1,408 @@
+{
+  "target": "http://127.0.0.1:5001",
+  "mode": "mock",
+  "understanding": [
+    {
+      "endpoint": "/api/login",
+      "purpose": "authenticate a user with username/password",
+      "actors": "anonymous",
+      "trust_boundary": "client-supplied fields should not be trusted for authz decisions",
+      "invariant": "only correct username+password should authenticate"
+    },
+    {
+      "endpoint": "/api/orders/<id>",
+      "purpose": "fetch a single order by id, requires auth token",
+      "actors": "authenticated owner",
+      "trust_boundary": "client-supplied fields should not be trusted for authz decisions",
+      "invariant": "a user should only ever be able to read their own orders"
+    },
+    {
+      "endpoint": "/api/profile/update",
+      "purpose": "update the caller's own profile fields",
+      "actors": "authenticated self",
+      "trust_boundary": "client-supplied fields should not be trusted for authz decisions",
+      "invariant": "a user should only be able to modify their own non-privileged fields (never role)"
+    },
+    {
+      "endpoint": "/api/internal/config",
+      "purpose": "internal/debug configuration endpoint",
+      "actors": "admin only",
+      "trust_boundary": "client-supplied fields should not be trusted for authz decisions",
+      "invariant": "internal/debug data must never be reachable without admin auth"
+    },
+    {
+      "endpoint": "/api/export",
+      "purpose": "export data in a given format",
+      "actors": "any",
+      "trust_boundary": "client-supplied fields should not be trusted for authz decisions",
+      "invariant": "no strong invariant identified"
+    }
+  ],
+  "hypotheses_tested": 5,
+  "all_attempts": [
+    {
+      "target_endpoint": "/api/login",
+      "verified": true,
+      "claim": "SQL injection in /api/login allows authentication bypass without valid credentials.",
+      "evidence": {
+        "control": {
+          "status": 401,
+          "body": {
+            "error": "invalid credentials"
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "32",
+            "Connection": "close"
+          }
+        },
+        "treatment": {
+          "status": 200,
+          "body": {
+            "id": 3,
+            "role": "admin",
+            "token": "tok-admin-003",
+            "username": "admin"
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "67",
+            "Connection": "close"
+          }
+        }
+      },
+      "impact": "full account takeover of the first matching user via crafted username",
+      "severity": "critical"
+    },
+    {
+      "target_endpoint": "/api/orders/<id>",
+      "verified": true,
+      "claim": "IDOR on /api/orders/<id>: authenticated users can read any other user's order by id.",
+      "evidence": {
+        "control": {
+          "status": 200,
+          "body": {
+            "id": 101,
+            "item": "Wireless Mouse",
+            "owner_id": 1,
+            "total": 19.99
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "62",
+            "Connection": "close"
+          }
+        },
+        "treatment": {
+          "status": 200,
+          "body": {
+            "id": 103,
+            "item": "Bob's Private Gift Card - $500",
+            "owner_id": 2,
+            "total": 500.0
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "78",
+            "Connection": "close"
+          }
+        }
+      },
+      "impact": "disclosure of other customers' order contents and totals",
+      "severity": "high"
+    },
+    {
+      "target_endpoint": "/api/profile/update",
+      "verified": true,
+      "claim": "Mass assignment on /api/profile/update allows self-escalation to admin via the role field.",
+      "evidence": {
+        "control": {
+          "status": 200,
+          "body": {
+            "id": 1,
+            "role": "user",
+            "username": "alice"
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "42",
+            "Connection": "close"
+          }
+        },
+        "treatment": {
+          "status": 200,
+          "body": {
+            "id": 1,
+            "role": "admin",
+            "username": "alice"
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "43",
+            "Connection": "close"
+          }
+        }
+      },
+      "impact": "any authenticated user can grant themselves admin privileges",
+      "severity": "critical"
+    },
+    {
+      "target_endpoint": "/api/internal/config",
+      "verified": true,
+      "claim": "Unauthenticated /api/internal/config discloses the application secret key.",
+      "evidence": {
+        "control": {
+          "status": 200,
+          "body": {
+            "service": "vuln-mart",
+            "status": "ok"
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "38",
+            "Connection": "close"
+          }
+        },
+        "treatment": {
+          "status": 200,
+          "body": {
+            "build": "vuln-mart@0.3.1-dev",
+            "db": ":memory:",
+            "debug": true,
+            "secret_key": "vulnmart-super-secret-do-not-leak-2024"
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "115",
+            "Connection": "close"
+          }
+        }
+      },
+      "impact": "secret key exposure enables downstream token/session forgery",
+      "severity": "medium"
+    },
+    {
+      "target_endpoint": "/api/export",
+      "verified": false,
+      "claim": "Export format parameter did not yield file disclosure; input is allow-listed.",
+      "evidence": {
+        "control": {
+          "status": 200,
+          "body": {
+            "exported_as": "csv",
+            "rows": 3
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "31",
+            "Connection": "close"
+          }
+        },
+        "treatment": {
+          "status": 400,
+          "body": {
+            "error": "unsupported format, allowed: ['csv', 'json', 'xml']"
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "64",
+            "Connection": "close"
+          }
+        }
+      },
+      "impact": "",
+      "severity": "low"
+    }
+  ],
+  "verified_findings": [
+    {
+      "target_endpoint": "/api/login",
+      "verified": true,
+      "claim": "SQL injection in /api/login allows authentication bypass without valid credentials.",
+      "evidence": {
+        "control": {
+          "status": 401,
+          "body": {
+            "error": "invalid credentials"
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "32",
+            "Connection": "close"
+          }
+        },
+        "treatment": {
+          "status": 200,
+          "body": {
+            "id": 3,
+            "role": "admin",
+            "token": "tok-admin-003",
+            "username": "admin"
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "67",
+            "Connection": "close"
+          }
+        }
+      },
+      "impact": "full account takeover of the first matching user via crafted username",
+      "severity": "critical"
+    },
+    {
+      "target_endpoint": "/api/orders/<id>",
+      "verified": true,
+      "claim": "IDOR on /api/orders/<id>: authenticated users can read any other user's order by id.",
+      "evidence": {
+        "control": {
+          "status": 200,
+          "body": {
+            "id": 101,
+            "item": "Wireless Mouse",
+            "owner_id": 1,
+            "total": 19.99
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "62",
+            "Connection": "close"
+          }
+        },
+        "treatment": {
+          "status": 200,
+          "body": {
+            "id": 103,
+            "item": "Bob's Private Gift Card - $500",
+            "owner_id": 2,
+            "total": 500.0
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "78",
+            "Connection": "close"
+          }
+        }
+      },
+      "impact": "disclosure of other customers' order contents and totals",
+      "severity": "high"
+    },
+    {
+      "target_endpoint": "/api/profile/update",
+      "verified": true,
+      "claim": "Mass assignment on /api/profile/update allows self-escalation to admin via the role field.",
+      "evidence": {
+        "control": {
+          "status": 200,
+          "body": {
+            "id": 1,
+            "role": "user",
+            "username": "alice"
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "42",
+            "Connection": "close"
+          }
+        },
+        "treatment": {
+          "status": 200,
+          "body": {
+            "id": 1,
+            "role": "admin",
+            "username": "alice"
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "43",
+            "Connection": "close"
+          }
+        }
+      },
+      "impact": "any authenticated user can grant themselves admin privileges",
+      "severity": "critical"
+    },
+    {
+      "target_endpoint": "/api/internal/config",
+      "verified": true,
+      "claim": "Unauthenticated /api/internal/config discloses the application secret key.",
+      "evidence": {
+        "control": {
+          "status": 200,
+          "body": {
+            "service": "vuln-mart",
+            "status": "ok"
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "38",
+            "Connection": "close"
+          }
+        },
+        "treatment": {
+          "status": 200,
+          "body": {
+            "build": "vuln-mart@0.3.1-dev",
+            "db": ":memory:",
+            "debug": true,
+            "secret_key": "vulnmart-super-secret-do-not-leak-2024"
+          },
+          "headers": {
+            "Server": "Werkzeug/3.1.7 Python/3.12.3",
+            "Date": "Fri, 03 Jul 2026 18:36:28 GMT",
+            "Content-Type": "application/json",
+            "Content-Length": "115",
+            "Connection": "close"
+          }
+        }
+      },
+      "impact": "secret key exposure enables downstream token/session forgery",
+      "severity": "medium"
+    }
+  ],
+  "chains": [
+    {
+      "steps": [
+        "login-sqli",
+        "profile-mass-assignment",
+        "orders-idor"
+      ],
+      "narrative": "1) Attacker with no account authenticates via SQL injection on /api/login. 2) Using the returned token, attacker calls /api/profile/update with role=admin, self-escalating to admin. 3) Attacker enumerates /api/orders/<id> to read every customer's order history and totals, now with an authoritative admin token.",
+      "resulting_impact": "unauthenticated attacker ends with admin privileges and full read access to all customer order data",
+      "combined_severity": "critical"
+    }
+  ]
+}

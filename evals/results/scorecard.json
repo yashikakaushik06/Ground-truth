@@ -1,0 +1,18 @@
+{
+  "mode": "mock",
+  "ground_truth_total": 4,
+  "verified_count": 4,
+  "true_positives_matched": [
+    "V1",
+    "V2",
+    "V3",
+    "V4"
+  ],
+  "recall": 1.0,
+  "precision": 1.0,
+  "false_positives": 0,
+  "red_herring_incorrectly_verified": false,
+  "evidence_complete_rate": 1.0,
+  "chains_found": 1,
+  "run_time_seconds": 0.03
+}
