@@ -1,4 +1,4 @@
-Ground truth — a 5-phase LLM agent for finding & proving web vulnerabilities
+Ground truth is a 5-phase LLM agent for finding & proving web vulnerabilities
 it's a small,
 opinionated pipeline where each phase is a separate, carefully-scoped prompt,
 the model's own claims are checked against real HTTP evidence it just
